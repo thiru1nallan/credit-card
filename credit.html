@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Card Validator</title>
+    <style>
+        .container {
+            width: 500px;
+            background-color: rgb(209, 135, 209);
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .inner-container {
+            text-align: center;
+        }
+        h1 {
+            text-align: center;
+        }
+        /* .notes {
+            font-size: 10px;
+        } */
+        p{
+            font-size: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Card Validator</h1>
+        <div class="inner-container">
+            <label for="num">Enter card number</label>
+            <input type="text" id="num">
+            <button onclick="validateCard()">Validate</button>
+        </div>
+        <h3 id="isValid"></h3>
+        <p xmlns:cc="http://creativecommons.org/ns#" xmlns:dct="http://purl.org/dc/terms/"><a property="dct:title" rel="cc:attributionURL" href="https://gitlab.com/ojv01_team/card-validator/-/blob/main/index.html">CREDIT CARD VALIDATOR</a> by <a rel="cc:attributionURL dct:creator" property="cc:attributionName" href="https://gitlab.com/bershin">THIRUMOORTHI/a> is marked with <a href="https://creativecommons.org/publicdomain/zero/1.0/?ref=chooser-v1" target="_blank" rel="license noopener noreferrer" style="display:inline-block;">CC0 1.0 Universal<img style="height:22px!important;margin-left:3px;vertical-align:text-bottom;" src="https://mirrors.creativecommons.org/presskit/icons/cc.svg?ref=chooser-v1" alt=""><img style="height:22px!important;margin-left:3px;vertical-align:text-bottom;" src="https://mirrors.creativecommons.org/presskit/icons/zero.svg?ref=chooser-v1" alt=""></a></p>
+    </div>
+    <script>
+        function validateCard() {
+            let cardNumber = parseInt(document.getElementById('num').value.trim());
+            // let cardNumber = 1047503963325138
+            if (isNaN(cardNumber) || typeof cardNumber !== 'number' || cardNumber.toString().length != 16) {
+                document.getElementById('isValid').innerText = "Please enter a valid 16 digit card number.";
+                document.getElementById('isValid').style.color = 'yellow'
+                return;
+            }
+
+            let sum = 0
+            for(i = 0; i < 16; i++){
+                digit = cardNumber % 10
+                if(i%2 != 0){
+                    digit = digit * 2;
+                    if(digit > 9){
+                        digit = Math.floor(digit/10 + digit%10)
+                    }
+                }
+                sum = sum + digit
+                cardNumber = parseInt(cardNumber / 10)
+            }
+            if(sum % 10 != 0){
+                document.getElementById('isValid').innerText = "Invalid card number."
+                document.getElementById('isValid').style.color = 'red'
+            } else {
+                document.getElementById('isValid').innerText = "Valid card number.";
+                document.getElementById('isValid').style.color = 'green'
+            }
+        }
+    </script>
+</body>
+</html>
